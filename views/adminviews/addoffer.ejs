@@ -1,0 +1,80 @@
+<%- include('adminheader') -%>
+    <%- include('adminnav') -%>
+
+        <div class="container mt-5">
+            <h2 class="mb-4">Add Offer</h2>
+
+            <form action="/addoffer" method="post">
+
+                <div class="mb-3">
+                    <label for="addBy" class="form-label">Add by:</label>
+                    <select id="addBy" name="addBy" class="form-select" required>
+                        <option value="product">Product</option>
+                        <option value="category">Category</option>
+                    </select>
+                </div>
+                <!-- Product dropdown -->
+                <div class="mb-3" id="productDropdown">
+                    <label for="product" class="form-label">Select Product:</label>
+                    <select id="product" name="product" class="form-select">
+                        <%product.forEach((product)=>{%>
+                            <option value="<%=product.name%>">
+                                <%=product.name%>
+                            </option>
+                            <%})%>
+                    </select>
+                </div>
+
+                <!-- Category dropdown -->
+                <div class="mb-3" id="categoryDropdown" style="display:none;">
+                    <label for="category" class="form-label">Select Category:</label>
+                    <select id="category" name="category" class="form-select">
+                        <%data.forEach((category)=>{%>
+                            <option value="<%=category.categoryname%>">
+                                <%=category.categoryname%>
+                            </option>
+                            <%})%>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="discount" class="form-label">Discount:</label>
+                    <input type="number" id="discount" name="discount" class="form-control" required>
+                </div>
+
+                
+
+                <div class="mb-3">
+                    <label for="expiryDate" class="form-label">Expiry Date:</label>
+                    <input type="date" id="expiryDate" name="expiryDate" min="<%= new Date().toISOString().slice(0, 10) %>" class="form-control" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Offer</button>
+                <p class="text-danger">
+                    <%=locals.msg?locals.msg: "" %>
+                </p>
+            </form>
+
+            <script>
+                // Add JavaScript to toggle visibility based on user selection
+                document.getElementById('addBy').addEventListener('change', function () {
+                    const selectedOption = this.value;
+
+                    // Hide/show product or category dropdown based on selection
+                    if (selectedOption === 'product') {
+                        document.getElementById('productDropdown').style.display = 'block';
+                        document.getElementById('categoryDropdown').style.display = 'none';
+                    } else if (selectedOption === 'category') {
+                        document.getElementById('productDropdown').style.display = 'none';
+                        document.getElementById('categoryDropdown').style.display = 'block';
+                    }
+
+                    // Reset the values of unselected dropdownsas
+                    if (selectedOption === 'product') {
+                        document.getElementById('category').value = '';
+                    } else if (selectedOption === 'category') {
+                        document.getElementById('product').value = '';
+                    }
+                });
+            </script>
+        </div>

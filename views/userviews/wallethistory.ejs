@@ -1,0 +1,36 @@
+<%-include('header')%>
+<%-include('nav')%>
+<%-include('cdmlinks')%>
+
+
+
+<div class="container mt-5">
+    <div style="text-align: center; border-radius: 10px; border: 2px solid blue;margin-bottom: 30px;">
+        <h2 class="mb-4" style="border-color: 2px solid blue;font-weight: bold;">Wallet History</h2>
+    </div>    
+
+    <table class="table table-bordered">
+        <thead>
+            <tr >
+                <th  style="color: azure;background-color: black;">SL.NO</th>
+                <th  style="color: azure;background-color: black;" scope="col">TRANSACTION DATE</th>
+                <th  style="color: azure;background-color: black;" scope="col">PROCESS</th>
+                <th  style="color: azure;background-color: black;" scope="col">AMOUNT</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Replace the following rows with actual wallet history data -->
+            <%wallethistory.forEach((history,i)=>{%>
+            <tr>
+                <th style="font-weight: 400;" scope="row"><%=i+1%></th>
+                <td style="font-weight: 400px;"><%= moment(history.date).format('DD/MM/YYYY') %></td>
+                <td><%=history.process%></td>
+                <td class="<%= (history.process === 'Topup' || history.process === 'Refund'||history.process==='Referral Offer'||history.process==='Return Refund') ? 'text-success' : 'text-danger' %>"><%= history.amount %></td>
+            </tr>
+            <!-- Add more rows as needed -->
+        <%})%>
+        </tbody>
+    </table>
+</div>
+
+<%-include('footer')%>

@@ -1,0 +1,48 @@
+<%-include('adminheader')-%>
+    <%-include('adminnav')-%>
+        <div class="container">
+            <h1>EDIT PRODUCTS</h1>
+            <form method="POST" action="/editproduct" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="categoryName" class="form-label">Product name</label>
+                    <input type="text" value="<%=locals.old.name%>" class="form-control" id="price"
+                        placeholder="Enter product name" name="name">
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" value="<%=locals.old.price%>" class="form-control" id="price" name="price">
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" rows="3"
+                        name="description"><%= locals.old.description %></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Catagory</label>
+                    <input class="form-control" id="category" name="category" value="<%= locals.old.categoryname %>"
+                        readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="quantity" class="form-label">Stock</label>
+                    <input type="number" value="<%=locals.old.stock%>" class="form-control" id="stock" name="stock">
+                </div>
+                <div class="mb-3">
+                    <label for="product-image" class="form-label">Image:</label>
+                    <input type="file" value="<%=locals.old.image[0]%>" id="product-image" name="images" multiple
+                        class="form-control" accept="image/*" required>
+                </div>
+                <div class="invisible">
+                    <input type="text" value="<%= locals.old.productid %>" class="" id="productId" name="productId">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <p class="text-danger">
+                    <%=locals.err?locals.err: "" %>
+                </p>
+                <p class="text-success">
+                    <%=locals.msg?locals.msg: "" %>
+                </p>
+            </form>
+        </div>
+        </body>
+
+        </html>

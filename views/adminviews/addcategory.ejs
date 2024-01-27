@@ -1,0 +1,41 @@
+<%-include('adminheader')-%>
+
+    <%-include('adminnav')-%>
+
+        <style>
+            .navbar-nav a.active {
+                background-color: #007bff;
+                /* Change this to your desired highlight color */
+                color: #fff;
+                /* Change this to your desired text color */
+
+            }
+        </style>
+
+        <div class="container">
+            <h1>ADD CATEGORY</h1>
+            <form method="POST" action="/addcategory">
+                <div class="mb-3">
+                    <label for="categoryName" class="form-label">Category Name</label>
+                    <input type="text" class="form-control" id="categoryName" placeholder="Enter category name"
+                        name="categoryName">
+                </div>
+                <div class="mb-3">
+                    <label for="categoryDescription" class="form-label">Category Description</label>
+                    <textarea class="form-control" id="categoryDescription" rows="3"
+                        placeholder="Enter category description" name="categoryDescription"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <!-- Frontend message passing -->
+                <p class="text-danger">
+                    <%=locals.err?locals.err: "" %>
+                </p>
+                <p class="text-success">
+                    <%=locals.msg?locals.msg: "" %>
+                </p>
+            </form>
+        </div>
+        </body>
+
+        </html>

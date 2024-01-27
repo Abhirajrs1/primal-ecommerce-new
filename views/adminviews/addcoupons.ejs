@@ -1,0 +1,40 @@
+<%- include('adminheader') -%>
+    <%- include('adminnav') -%>
+
+        <div class="container">
+            <h2>Add Coupon</h2>
+
+            <form action="/addcoupons" method="POST">
+                <div class="form-group" style="margin-top: 1%;">
+                    <label for="couponName">Coupon Name:</label>
+                    <input type="text" id="couponName" name="couponName" class="form-control" placeholder="Coupon Name"
+                        required>
+                </div>
+                <div class="form-group" style="margin-top: 2%;margin-bottom: 2%;">
+                    <label for="couponCode">Coupon Code:</label>
+                    <input type="text" id="couponCode" name="couponCode" class="form-control" placeholder="Coupon Code"
+                        required>
+                </div>
+                <div class="form-group" style="margin-top: 2%;margin-bottom: 2%;">
+                    <label for="offerPercentage">Offer Percentage:</label>
+                    <input type="number" id="offerPercentage" name="offerPercentage" class="form-control" min="0"
+                        max="100" placeholder="Offer Percentage" required>
+                </div>
+                <div class="form-group" style="margin-top: 2%;margin-bottom: 2%;">
+                    <label for="maxOff">Max Off:</label>
+                    <input type="number" id="maxOff" name="maxOff" class="form-control" min="0" placeholder="Max Off"
+                        required>
+                </div>
+                <div class="form-group" style="margin-top: 2%;margin-bottom: 2%;">
+                    <label for="expiryDate">Expiry Date:</label>
+                    <input type="date" id="expiryDate" name="expiryDate" min="<%= new Date().toISOString().slice(0, 10) %>" class="form-control" placeholder="Expiry"
+                        required>
+                </div>
+                
+                <br>
+                <button type="submit" class="btn btn-primary">Add Coupon</button>
+            </form>
+        </div>
+        </body>
+
+        </html>

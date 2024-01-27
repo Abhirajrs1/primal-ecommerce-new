@@ -1,0 +1,47 @@
+<%- include('adminheader') -%>
+    <%- include('adminnav') -%>
+
+        <div class="container">
+            <h2>Edit Coupon</h2>
+
+            <form action="/editcoupons" method="POST">
+                <div class="form-group">
+                    <label for="couponName">Coupon Name:</label>
+                    <input type="text" id="couponName" name="couponName" value="<%=locals.data.couponname%>"
+                        class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="couponCode">Coupon Code:</label>
+                    <input type="text" id="couponCode" name="couponCode" value="<%=locals.data.couponcode%>"
+                        class="form-control" required>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="offerPercentage">Offer Percentage:</label>
+                    <input type="number" id="offerPercentage" name="offerPercentage"
+                        value="<%=locals.data.coupondiscount%>" class="form-control" min="0" max="100" required>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="maxOff">Max Off:</label>
+                    <input type="number" id="maxOff" name="maxOff" value="<%=locals.data.minValue%>"
+                        class="form-control" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="expiryDate">Expiry Date:</label>
+                    <input type="date" id="expiryDate" name="expiryDate" min="<%= new Date().toISOString().slice(0, 10) %>" value="<%=locals.data.expiryDate%>"
+                        class="form-control" required>
+                </div>
+                <div class="invisible">
+                    <input type="text" value="<%= locals.data.couponid %>" class="" id="categoryId" name="couponId">
+                </div>
+                <button type="submit" class="btn btn-primary">SUBMIT</button>
+            </form>
+        </div>
+
+        </body>
+
+        </html>

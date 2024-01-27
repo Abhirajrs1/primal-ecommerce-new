@@ -1,0 +1,35 @@
+<%-include('adminheader')-%>
+    <%-include('adminnav')-%>
+
+        <div class="container">
+            <h1>EDIT CATEGORY</h1>
+            <form method="POST" action="/editcategory">
+                <div class="mb-3">
+                    <label for="categoryName" class="form-label">Category Name</label>
+                    <input type="text" value="<%= locals.oldData.categoryname %>" class="form-control" id="categoryName"
+                        placeholder="Enter category name" name="categoryName">
+                </div>
+                <div class="mb-3">
+                    <label for="categoryDescription" class="form-label">Category Description</label>
+                    <textarea class="form-control" id="categoryDescription" rows="3"
+                        placeholder="Enter category description"
+                        name="categoryDescription"><%= locals.oldData.categorydescription %></textarea>
+                </div>
+
+                <div class="invisible">
+                    <input type="text" value="<%= locals.oldData.categoryid %>" class="" id="categoryId"
+                        name="categoryId">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <p class="text-danger">
+                    <%=locals.err?locals.err: "" %>
+                </p>
+                <p class="text-success">
+                    <%=locals.msg?locals.msg: "" %>
+                </p>
+            </form>
+        </div>
+        </body>
+
+        </html>

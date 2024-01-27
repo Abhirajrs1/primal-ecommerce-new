@@ -1,0 +1,202 @@
+<%-include('adminheader')-%>
+  <%-include('adminnav')-%>
+    <!-- Add margin to the top of the entire content -->
+
+    <div style="padding: 30px;">
+
+    </div>
+
+    <!-- new -->
+    <div class="row" style="padding-bottom: 70px;">
+      <!-- Filter by Status -->
+      <div class="col-md-4" style="margin-bottom: 60px;margin-bottom: 10px;">
+
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            FILTER BY STATUS
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="/report?status=All">ALL</a></li>
+            <li><a class="dropdown-item" href="/report?status=Placed">PLACED</a></li>
+            <li><a class="dropdown-item" href="/report?status=Cancelled">CANCEL</a></li>
+            <li><a class="dropdown-item" href="/report?status=Delivered">DELIVERED</a></li>
+            <li><a class="dropdown-item" href="/report?status=Returned">RETURNED</a></li>
+                
+          </ul>
+        </div>
+      </div>
+
+      <!-- Filter by Month -->
+      <div class="col-md-4">
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMonth" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            FILTER BY MONTH
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMonth">
+            <!-- Add list items for each month (you can use server-side logic to generate these) -->
+            <li><a class="dropdown-item" href="/report?month=1">January</a></li>
+            <li><a class="dropdown-item" href="/report?month=2">February</a></li>
+            <li><a class="dropdown-item" href="/report?month=3">March</a></li>
+            <li><a class="dropdown-item" href="/report?month=4">April</a></li>
+            <li><a class="dropdown-item" href="/report?month=5">May</a></li>
+            <li><a class="dropdown-item" href="/report?month=6">June</a></li>
+            <li><a class="dropdown-item" href="/report?month=7">July</a></li>
+            <li><a class="dropdown-item" href="/report?month=8">August</a></li>
+            <li><a class="dropdown-item" href="/report?month=9">September</a></li>
+            <li><a class="dropdown-item" href="/report?month=10">October</a></li>
+            <li><a class="dropdown-item" href="/report?month=11">November</a></li>
+            <li><a class="dropdown-item" href="/report?month=12">December</a></li>
+
+            <!-- Add the rest of the months -->
+                
+          </ul>
+        </div>
+      </div>
+
+      <!-- Filter by Year -->
+      <div class="col-md-4">
+        <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownYear" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            FILTER BY YEAR
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownYear">
+            <!-- Add list items for each year (you can use server-side logic to generate these) -->
+            <li><a class="dropdown-item" href="/report?year=2022">2022</a></li>
+            <li><a class="dropdown-item" href="/report?year=2023">2023</a></li>
+            <li><a class="dropdown-item" href="/report?year=2024">2024</a></li>
+            <li><a class="dropdown-item" href="/report?year=2025">2025</a></li>
+
+            <!-- Add the rest of the years -->
+          </ul>
+        </div>
+
+         
+      </div>
+      <!-- end -->
+
+      <!-- new pdf -->
+
+      <div style="height: 100px;width: 500px;margin-left: 900px;">
+        <form action="/report" method="get" class="my-4">
+            <div class="row">
+                <!-- Start Date -->
+                <div class="col-md-4">
+                    <label for="startDate">Start Date:</label>
+                    <input type="date" id="startDate" name="startDate" class="form-control">
+                </div>
+                <!-- End Date -->
+                <div class="col-md-4">
+                    <label for="endDate">End Date:</label>
+                    <input type="date" id="endDate" name="endDate" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary mt-2" style="background-color: black;color: white; width: 300px; margin-left: 15px;">Search</button>
+            </div>
+        </form>
+    </div>
+
+
+      <div class="row">
+        <div class="col-lg-1" > 
+            <form action="/generatepdf" method="post">
+                <input type="hidden" name="order">
+                <button type="submit" class="btn btn-success" >Generate PDF</button>
+            </form>
+        </div>
+        <div class="col-md-1">
+            <form action="/generateexcel" method="post" >
+                <input type="hidden" name="order">
+                <button type="submit" class="btn btn-success">Generate EXCEL</button>
+            </form>
+        </div>
+    </div>
+    
+
+      <!-- end -->
+      <div class="mt-4 ">
+        <div class="container">
+          <div class="my-4">
+            <table class="table table-bordered table-striped text-center">
+              <thead class="thead-dark">
+                <tr>
+                  <th scope="col">SL No:</th>
+                  <th scope="col">Order ID</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Total</th>
+                  <th scope="col">Purchase Date</th>
+                  <th scope="col">Delivery Date</th>
+                  <th scope="col">Order Status</th>
+                  <th scope="col">Payment Method</th>
+                </tr>
+              </thead>
+              <% for (let i=0; i < orders.length; i++) { %>
+                <tbody>
+                  <tr>
+                    <th scope="row">
+                      <%= i + 1 %>
+                    </th>
+                    <td>
+                      <%= orders[i].orderid %>
+                    </td>
+                    <td>
+                      <%= orders[i].email %>
+                    </td>
+                    <td>
+                      <%= orders[i].total %>
+                    </td>
+                    <td>
+                      <%= orders[i].purchasedate %>
+                    </td>
+                    <td>
+                      <%= orders[i].deliverydate %>
+                    </td>
+                    <td>
+                      <%= orders[i].status %>
+                    </td>
+                    <td>
+                      <%= orders[i].paymentmethod %>
+                    </td>
+                  </tr>
+                </tbody>
+                <% } %>
+            </table>
+          </div>
+
+          <% if (locals.page && locals.limit && locals.countpages) { %>
+            <div class="text-center my-4">
+              <nav aria-label="Page navigation example" style="width: 30%; margin: auto;">
+                <ul class="pagination">
+                  <li class="page-item">
+                    <a class="page-link" href="/ordermanagement?page=<%= Math.max(1, page - 1) %>&pagesize=<%= limit %>"
+                      aria-label="Previous">
+                      <span aria-hidden="true">&laquo;</span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                  </li>
+                  <% for (let i=1; i <=2; i++) { %>
+                    <li class="page-item <%= i === page ? 'active' : '' %>">
+                      <a class="page-link" href="/ordermanagement?page=<%= i %>&pagesize=<%= limit %>">
+                        <%= i %>
+                      </a>
+                    </li>
+                    <% } %>
+                      <li class="page-item">
+                        <a class="page-link"
+                          href="/ordermanagement?page=<%= Math.max(2, page + 1) %>&pagesize=<%= limit %>"
+                          aria-label="Next">
+                          <span aria-hidden="true">&raquo;</span>
+                          <span class="sr-only">Next</span>
+                        </a>
+                      </li>
+                </ul>
+              </nav>
+            </div>
+            <% } %>
+        </div>
+      </div>
+      <br><br><br><br>
+      </body>
+
+      </html>

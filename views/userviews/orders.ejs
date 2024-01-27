@@ -1,0 +1,329 @@
+<%-include('header')%>
+<%-include('nav')%>
+<%-include('cdmlinks')%>
+
+
+
+
+<div class="search-wrapper">
+    <form action="/search_orders" method="post" class="d-flex align-items-center">
+        <input class="form-control me-2" type="search" placeholder="Search" id="SEARCH" name="search" style="width: 300px;margin-left: 1170px;">
+        <div>
+            <button style="background-color: black; color: antiquewhite; padding: 7px; border-radius: 10px; margin-left: 2px; margin-bottom: 20px;" type="submit">
+                <i class="fas fa-search"></i> <!-- Search Icon -->
+            </button>
+        </div>
+    </form>
+</div>
+<body>
+    <section>
+        <div class="row" style="background-color:#1b2632;">
+            <!-- content-->
+            <div class=" container col-md-10 content-wrapper pt-3" style="background-color:rgb(24,24,27);margin-left:250px;">
+                <div class="row" style="margin-left:40px;margin-right:40px;">
+                    <div class="margin" style="text-align:center;margin-bottom:50px;">
+                        <h4 style="color:white;">My Order</h4>
+                    </div>
+    
+                    <% for(let i=0; i<orders.length; i++) { %>
+                    <div class="container col-md-12" style="margin-bottom:50px; background-color:white; border-radius:1rem; margin-left:2px;">
+                        <div style="display:flex;justify-content: space-around;align-items:start;">
+                            <div style="display:flex;flex-direction: column;">
+                            <% for(let j=0; j<orders[i].orderitems.length; j++) { %>
+                                <div class="product col-md-4" style="margin-top: 40px;">
+                                    <div style="text-align: center;">
+                                        <a href="#">
+                                            <img src="/productImages/<%= orders[i].orderitems[j].productimage %>" alt="Product Image" width="220" height="220" />
+                                        </a>
+                                    </div>
+                                </div>
+                                <% } %>
+                            </div>
+
+                            <div class="order-info col-md-4" style="margin-top: 20px;margin-bottom: 20px;">
+                                <div style="margin-bottom: 20px;  background: rgb(138, 131, 219);
+                                background: linear-gradient(90deg, rgb(112, 118, 190) 0%, rgb(58, 60, 193) 50%, rgb(79, 49, 244) 100%);width: 200px;height: 30px;">
+                                    <h5 style="text-align: center; color: #FFFFFF;font-weight:500px ;padding-top: 5px;">Product Details</h5>
+                                </div>
+                                <% for(let j=0; j<orders[i].orderitems.length; j++) { %>
+                                <p>product Name: <strong><%=orders[i].orderitems[j].productname%></strong></p>
+                                <p>product price:<strong><%=orders[i].orderitems[j].productprice%></strong></p>
+                                <p>product quantity:<strong><%=orders[i].orderitems[j].productquantity%></strong></p>
+                                <br>
+                                <br>
+                                <% } %>
+                            </div>  
+
+        
+                            <div class="order-info col-md-4" style="margin-top: 20px;">
+
+                                <div style="margin-bottom: 20px;     background: rgb(138, 131, 219);
+                                background: linear-gradient(90deg, rgb(112, 118, 190) 0%, rgb(58, 60, 193) 50%, rgb(79, 49, 244) 100%);width: 200px;height: 30px;">
+                                    <h5 style="text-align: center; color: #FFFFFF;font-weight:500px ;padding-top: 5px;">Order Details</h5>
+                                </div>
+                                <%if(orders[i].status==="Returned"){%>
+                                    <p>Ordered date: <strong ><%=orders[i].purchasedate%></strong></p>  
+                                <%}else if(orders[i].status==="Delivered"){%>
+                                    <p>Expiry Date for Return: <strong ><%=orders[i].expirydate%></strong></p>
+                                <%}else{%>
+                                <p>Delivery Date: <strong ><%=orders[i].deliverydate%></strong></p>
+                                <%}%>
+                                <p>Total price: <strong><%=orders[i].total%></strong></p>
+                                <p>Payment mode:<strong><%=orders[i].paymentmethod%></strong></p>
+                                <p>Order Status:<strong><%=orders[i].status%></strong></p>
+                            </div>  
+                                
+                        </div>
+                        <%if(orders[i].status=="Delivered"){%>
+                            <a href="/downloadinvoice?id=<%=orders[i].orderid%>" class="btn btn-primary " style="margin-top: 100px; margin-left: 400px;" >Invoice download</a>
+                            <%}%>
+
+
+                        <% if(orders[i].status === "Placed") { %>
+                        <div class="button-container col-md-4">
+                            <button class="track-button btn-danger btx" style="margin-bottom: 40px; padding-left:18px;" orders-orderid="<%= orders[i].orderid %>">Cancel Order</button>
+                        </div>
+                        <% }
+                        
+                        else if(orders[i].status === "Delivered"){%>
+                            <div class="button-container col-md-4">
+                                <button class="track-button" style="margin-bottom: 40px; padding-left:18px;background-color: rgb(13, 93, 162); padding-left: 41px;">
+                                    <a style="text-decoration: none;color: #fff; text-align:center;" href="/returnorders?id=<%=orders[i].orderid%>">Return</a>
+                                </button>
+                            </div>
+                            <%}%>
+                            
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+            <!-- content end -->
+        </div>
+     
+             <style>
+                            .text{
+                            color:white;
+                            }
+                            .card
+                            {
+                            background-color:black;
+                            }
+                        
+                        .btn-danger:hover {
+                            background-color: #d50000;
+                            color: white;
+                        }
+                        .btn-narrow {
+                            width: auto; /* Adjust this value to your preference */
+                            padding: 5px 10px; /* Adjust padding to control height and button size */
+                        }
+                        .margin {
+                                    background: rgb(131,58,180);
+                                        background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+                                        border-radius: 10rem;
+                                    height: 40px;
+                                    margin-top: 10px;}
+                        .container {
+                                    margin: 0 150px;
+                                    /* Add left and right margin */
+                                }
+                                .order-details {
+                                    border: 3px solid #0000FF; /* 3px border with black color */
+                                    padding: 20px; /* Add padding for spacing inside the border */
+                                    border-radius:17px;
+                                    height:190px;
+                                    background-color:#fff;
+                                }
+                        
+                        
+                                /* Add your CSS styles here */
+                                .order-details {
+                                    display: flex;
+                                    align-items: center;
+                                }
+                        
+                                .product {
+                                    display: flex;
+                                    align-items: center;
+                                }
+                        
+                                .product img {
+                                    width: 100px; /* Adjust the image width as needed */
+                                    height: auto;
+                                }
+                        
+                                .product h2 {
+                                    margin-left: 20px; /* Add spacing between the image and the product name */
+                                }
+                        
+                                .order-info {
+                                    margin-left: 20px; /* Add spacing between the product and order info */
+                                }
+                        
+                                .button-container {
+                                margin-left:50px;
+                                    display: flex;
+                                    margin-top: 90px;
+                                    margin-right:20px;
+                                }
+                        
+                        .order-status {width: 120px; /* Set a fixed width for buttons and order status */
+                                border-radius: 10px; /* Add border radius to buttons and order status */
+                                padding: 6px 13px; /* Add padding for buttons and order status */
+                                text-align: center;
+                                cursor: pointer;
+                                margin-right:30px;
+                                margin-top:20px;
+                                color: #000; }
+                        
+                        .return-button{
+                                width: 120px; /* Set a fixed width for buttons and order status */
+                                border-radius: 10px; /* Add border radius to buttons and order status */
+                                padding: 10px 10px; /* Add padding for buttons and order status */
+                                text-align: center;
+                                cursor: pointer;
+                                margin-right:10px;
+                                color: #fff; /* Text color for buttons and order status */
+                            }
+                        
+                        
+                            .return-button {
+                                background-color: #FF0000; /* Red background for "Return" button */
+                                border: none;
+                            }
+                            .refund-button{
+                                width: 120px; /* Set a fixed width for buttons and order status */
+                                border-radius: 10px; /* Add border radius to buttons and order status */
+                                padding: 10px 10px; /* Add padding for buttons and order status */
+                                text-align: center;
+                                cursor: pointer;
+                                margin-right:10px;
+                                background-color:#009C7D;
+                                color: #fff; /* Text color for buttons and order status */
+                            }
+                            p{
+                               font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+                               font-weight: 500;
+                               font-style: oblique;
+                               font-size: 14px;
+                            }
+                            strong{
+                             font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+                             font-size: 17px;
+                             font-weight: bold;
+                             margin-left: 40px;
+                            }
+                        
+                            .refund-button {
+                                background-color: #00A67D; /* Red background for "Return" button */
+                                color:#fff;
+                                border: none;
+                            }
+                        
+                        
+                            .cancel-button{
+                                width: 120px; /* Set a fixed width for buttons and order status */
+                                border-radius: 10px; /* Add border radius to buttons and order status */
+                                padding: 10px 10px; /* Add padding for buttons and order status */
+                                text-align: center;
+                                cursor: pointer;
+                                margin-right:10px;
+                                border: 2px solid #008205;
+                                color:#000; /* Text color for buttons and order status */
+                            }
+                            .cancel-button:hover{
+                            border: 2px solid #FF0000;
+                            color:#000;}
+                        
+                        
+                            .return-button:hover {
+                                background-color: #FF5555; /* Light red background on hover */
+                            }
+                        
+                            .track-button {
+                                background-color: #000; /* Blue background for "Track Order" button */
+                                border: none;
+                            margin-left:50px;
+                                    display: flex;
+                                  
+                                    margin-right:20px;
+                                    width: 120px; /* Set a fixed width for buttons and order status */
+                                border-radius: 10px; /* Add border radius to buttons and order status */
+                                padding: 10px 10px; /* Add padding for buttons and order status */
+                                text-align: center;
+                                cursor: pointer;
+                                margin-right:10px;
+                                color: #fff;
+                        
+                            }
+                        
+                            .track-button:hover {
+                                background-color: #fff;
+                                border: 2px solid #000;/* Light blue background on hover */
+                                color: #000; /* Change text color to black on hover */
+                            }
+                        
+                            .order-status {
+                                background-color: #FFFFFF; /* White background for the order status */
+                                border: 2px solid #000; /* Black border for the order status */
+                                cursor: default;
+                            }
+                                .margin {
+                                    background: rgb(131,58,180);
+                                        background: linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%);
+                                        border-radius: 10rem;
+                                    height: 40px;
+                                    margin-top: 180px;
+                                    margin-bottom:70px;}
+                        
+        
+  
+        </style>
+    </section>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        const buttons = document.querySelectorAll('.btx');
+    
+        buttons.forEach(button => {
+            button.addEventListener('click', function () {
+                const orderID = this.getAttribute('orders-orderid');
+                if (orderID) {
+                    Swal.fire({
+                        title: 'Cancel order',
+                        text: 'Are you sure?',
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes',
+                        cancelButtonText: 'Cancel'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Prompt for the cancellation reason
+                            Swal.fire({
+                                title: 'Cancellation Reason',
+                                input: 'text',
+                                inputLabel: 'Please provide a reason',
+                                inputPlaceholder: 'Enter your reason here...',
+                                showCancelButton: true,
+                                confirmButtonText: 'Submit',
+                                cancelButtonText: 'Cancel'
+                            }).then((reasonResult) => {
+                                if (reasonResult.isConfirmed) {
+                                    // User provided a reason, proceed with cancellation
+                                    const reason = reasonResult.value;
+                                    window.location.href = '/cancelorders?id=' + orderID + '&reason=' + reason;
+                                } else {
+                                    // User canceled providing a reason
+                                    Swal.fire('Cancelled', 'Order cancellation was not completed', 'info');
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

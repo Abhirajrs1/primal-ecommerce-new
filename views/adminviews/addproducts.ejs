@@ -1,0 +1,56 @@
+<%-include('adminheader')-%>
+    <%-include('adminnav')-%>
+        <div class="container">
+            <h1>ADD PRODUCTS</h1>
+            <form method="POST" action="/addproduct" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="categoryName" class="form-label">Product name</label>
+                    <input type="text" class="form-control" id="price" placeholder="Enter product name" name="name"
+                        required>
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="price" name="price" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" rows="3" name="description" required></textarea>
+                </div>
+
+                <!-- Product Category -->
+                <div class="mb-3">
+                    <select class="form-select " aria-label="Default select example" name="categoryname"
+                        id="categoryname" style="margin-left: 15px ;" required>
+                        <option selected>Select Category</option>
+                        <br>
+                        <% for(let i=0;i<data.length;i++){%>
+                            <option value="<%=data[i].categoryname %>">
+                                <%=data[i].categoryname %>
+                            </option>
+                            <% } %>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label for="quantity" class="form-label">Stock</label>
+                    <input type="number" class="form-control" id="stock" name="stock" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="product-image" class="form-label">Image:</label>
+                    <input type="file" id="product-image" name="images" multiple class="form-control" accept="image/*"
+                        required>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <p class="text-danger">
+                    <%=locals.err?locals.err: "" %>
+                </p>
+                <p class="text-success">
+                    <%=locals.msg?locals.msg: "" %>
+                </p>
+            </form>
+        </div>
+        </body>
+
+        </html>

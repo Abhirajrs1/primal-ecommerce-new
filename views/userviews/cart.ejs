@@ -1,0 +1,248 @@
+<%-include('header')%>
+<%-include('nav')%>
+<%-include('cdmlinks')%>
+
+
+<%if(cart.length==0){%>
+  <div class="col-md-12" >
+
+    <div class="card">
+     
+      <div class="card-body cart" style="text-align: center;background: linear-gradient(to right, #4f5a5d, #33558e);">
+
+        <div class="col-sm-12 empty-cart-cls text-center" style="text-align: center;background: linear-gradient(to right, #868cb4, #a88dcb);height: 200px;" >
+          <h3 style="color: #ffffff;font-weight: bold;">YOUR CART IS EMPTY</h3>
+          <a href="/" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue
+            shopping</a>
+
+
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+<%}else{%>
+
+<section class="h-100 gradient-custom">
+    <div class="container py-5">
+      <div class="row d-flex justify-content-center my-4">
+  
+        <div class="col-md-8">
+          
+          <div class="card mb-4">
+            <div style="text-align: center;background: linear-gradient(to right, #bdcbcf, #a88dcb);">
+              <h2 style="color: #ffffff;font-weight: bold;" >YOUR CART </h2>
+            </div>
+            <div class="card-body" style=" background: linear-gradient(to right, #e5edef, #f2ebfb);">
+              <!-- Single item -->
+              <%let total=0 %>
+                <% for(let i=0;i<cart.length;i++){ %>
+
+              <div class="row" style=" border: 2px solid #ddd; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); padding: 20px;margin-left: 10px;margin-right: 10px;background: linear-gradient(to right, #ffffff, #fdfdfd);border-radius: 10px;">
+                
+                <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
+                  <!-- Image -->
+                  <div style="padding: 23px;">
+                    <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
+                      <img src="/productImages/<%=cart[i].productimage%>"
+                        class="w-50"  />
+                      <a href="#!">
+                        <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
+                      </a>
+                    </div>
+                  </div>
+                  <!-- Image -->
+                </div>
+                <div class="col-lg-2   col-md-6 mb-4 mb-lg-0" style="margin-top: 2%;margin-bottom: 6px;">
+                  <h5><strong>Name</strong></h5>
+                  <!-- Data -->
+                  <h5 style="padding-top: 10px;">  <%=cart[i].productname%></h5>
+                  <!-- Data --> 
+                </div>
+
+                <div class="col-lg-2   col-md-6 mb-4 mb-lg-0" style="margin-top: 2%;margin-bottom: 2%">
+                  <h5><strong>Price</strong></h5>
+                  <!-- Data -->
+                  <h5 id="price<%=cart[i].productid%>" style="padding-top: 10px;"><%=cart[i].productprice%></strong><h5>
+                  <!-- Data --> 
+                </div>
+
+                <div class="col-lg-2   col-md-6 mb-4 mb-lg-0" style="margin-top: 10px;margin-bottom: 2%;" >
+                  <h5><strong>Total</strong></h5>
+                  <!-- Data -->
+                  <h5 id="itemsum<%=cart[i].productid%>" style="padding-top: 10px;">
+                    <%=cart[i].productquantity * cart[i].productprice %>
+                  </h5>
+                  <!-- Data --> 
+                </div>
+
+                
+                
+                <div class="col-lg-3 col-md-6 mb-4 mb-lg-0" >
+                  <!-- Quantity -->
+                  <div class="d-flex mb-4" style="max-width: 300px;max-height:25%;">
+
+
+                    <div  style="margin-top: 51px;">
+                      <button  class="btn btn-primary px-3 me-2" 
+                      onclick="decrementCount('<%=cart[i].productid%>',this)">
+                        -</button>
+                    </div>
+                    
+                  
+                    <div class="form-outline">
+                      <label class="form-label" style="padding-bottom: 10px;padding-top: 15px;" for="count<%=cart[i].productid%>" >Quantity</label>
+                      <input id="count<%=cart[i].productid%>" min="0" name="quantity" value="<%=locals.cart[i].productquantity%>" type="number" class="form-control" readonly />
+                     
+                    </div>
+                    <div style="margin-top: 51px;">
+                      <button  class="btn btn-primary px-3 ms-2"
+                        onclick="incrementCount('<%=cart[i].productid%>',this)">
+                        +</button>
+                    </div>
+                  </div>
+                  <br>
+                  <div class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip" title="Remove item"  style="margin-left: 90px;margin-top: 30px;">
+                    <a href="/deletecart?id=<%=cart[i].productid%>" style="color: white; text-decoration: none; ">
+                      <i class="fas fa-trash"></i> Delete
+                    </a>
+                  </div>  
+                  <!-- Price -->
+                  
+                  <%let quantity=cart[i].productquantity
+                  let price=cart[i].productprice
+                  let prototal=quantity*price
+                  total=total+prototal%>
+                  <!-- Price -->
+                  
+
+                </div>
+                
+              </div>
+              <!-- Single item -->
+  
+              <hr class="my-4" />
+              <% } %>
+            </div>
+          </div>
+          
+          <div class="card mb-4 mb-lg-0">
+            <div class="card-body">
+              <p><strong>We accept</strong></p>
+              <img class="me-2" width="45px"
+                src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
+                alt="Visa" />
+              <img class="me-2" width="45px"
+                src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
+                alt="American Express" />
+              <img class="me-2" width="45px"
+                src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
+                alt="Mastercard" />
+            </div>
+          </div>
+        </div>
+       
+        <div class="col-md-4">
+      
+          <div class="card mb-4">
+            <div class="card-header py-3">
+              <h5 class="mb-0">Summary</h5>
+            </div>
+            
+            <div class="card-body">
+             <div class="cart-item-sumlist" id="cartItemListSum">
+              <%for(let i=0;i<cart.length;i++){%>
+                <p class="d-flex justify-content-between align-items-center px-0">
+                  <%=cart[i].productname%> x <%=cart[i].productquantity%>
+                  <span><%=cart[i].productprice * cart[i].productquantity%></span>
+                </p>
+                <%}%>
+             </div>
+             <div class="total d-flex justify-content-between">
+                <p>Total</p>
+                <p id="totalSum"><%=total %></p>
+             </div>
+              
+              <a href="/checkout" class="btn btn-primary btn-lg btn-block">
+                Go to checkout
+            </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <%}%>
+  <script>
+    function incrementCount(product_id){
+      const inputElem = document.getElementById(`count${product_id}`)
+      const priceElem = document.getElementById(`price${product_id}`)
+      const itemSumElem = document.getElementById(`itemsum${product_id}`)
+      fetch(`/increasequantity?value=${inputElem.value}&id=${product_id}`)
+      .then(res => res.json())
+      .then(res => {
+        if(res.success){
+          inputElem.stepUp()
+          const price = Number(priceElem.textContent)
+          itemSumElem.textContent = price * inputElem.value
+          setCartTotal(res.cart)
+        }else{
+          alert(res.msg)
+        }
+      })
+    }
+
+    function decrementCount(product_id){
+      const inputElem = document.getElementById(`count${product_id}`)
+      const priceElem = document.getElementById(`price${product_id}`)
+      const itemSumElem = document.getElementById(`itemsum${product_id}`)
+
+      fetch(`/decreasequantity?value=${inputElem.value}&id=${product_id}`)
+      .then(res => res.json())
+      .then(res => {
+        if(res.success){
+          inputElem.stepDown()
+          const price = Number(priceElem.textContent)
+          itemSumElem.textContent = price * inputElem.value
+          setCartTotal(res.cart)
+        }else{
+          alert(res.msg)
+        }
+      })
+    }
+
+    
+    function setCartTotal(cart) {
+                const cartSumDiv = document.getElementById('cartItemListSum')
+                const totalSumElem = document.getElementById('totalSum')
+                let domString = '';
+                let totalSum = 0
+
+                for (let i = 0; i < cart.length; i++) {
+        
+                  domString += `
+                    <p class="d-flex justify-content-between align-items-center px-0">
+                        ${cart[i].productname} x ${cart[i].productquantity}
+                        <span>${cart[i].productprice * cart[i].productquantity}</span>
+                    </p>
+                `;
+
+                    totalSum+= cart[i].productprice * cart[i].productquantity
+                }
+
+                cartSumDiv.innerHTML = domString
+                totalSumElem.textContent = totalSum
+              }
+
+    
+
+function validatequantity(input) {
+  if (input.value < 0) {
+    input.value = 0;
+  }
+}
+  </script>
+<br>
+<br>
+  <%-include('footer')%>

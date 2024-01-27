@@ -1,0 +1,27 @@
+<%- include('adminheader') -%>
+    <%- include('adminnav') -%>
+
+        <div class="container mt-5">
+            <h2 class="mb-4">Edit Offer</h2>
+
+            <form action="/editoffer" method="post">
+
+                <div class="mb-3">
+                    <label for="discount" class="form-label">Discount:</label>
+                    <input type="number" id="discount" name="discount" class="form-control"
+                        value="<%= locals.offer.discount %>" required>
+                </div>
+
+                
+
+                <div class="mb-3">
+                    <label for="expiryDate" class="form-label">Expiry Date:</label>
+                    <input type="date" id="expiryDate" name="expiryDate" min="<%= new Date().toISOString().slice(0, 10) %>" class="form-control"
+                        value="<%=locals.offer.expiryDate %>" required>
+                </div>
+                <div class="invisible">
+                    <input type="text" value="<%= locals.offer._id %>" class="" id="id" name="id">
+                </div>
+                <button type="submit" class="btn btn-primary">Update Offer</button>
+            </form>
+        </div>
