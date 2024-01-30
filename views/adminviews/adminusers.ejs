@@ -9,14 +9,13 @@
                 <h6 class="text-white text-capitalize ps-3">User Management</h6>
                 <div class="d-flex align-items-center">
                   <div style="margin-left: 10px;" class="col-4">
-                    <input type="text" class="form-control me-2" placeholder="Search...">
-                  </div>
-                  <div>
-                    <button
-                      style="background-color:blue ;color: antiquewhite;padding: 7px;border-radius: 10px;margin-left: 10px;">Search
-                    </button>
-                  </div>
-
+                    <form action="/searchuser" method="post" class="d-flex align-items-center">
+                      <input class="form-control me-2" type="search" placeholder="Search users" id="search" name="search">
+                      <div >
+                          <button style="background-color:blue ;color: antiquewhite;padding: 7px;border-radius: 10px;margin-left: 10px;">Search
+                          </button>
+                      </div>
+                  </form>    
                 </div>
               </div>
             </div>

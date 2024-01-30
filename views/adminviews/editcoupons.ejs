@@ -26,7 +26,7 @@
 
                 <div class="form-group">
                     <label for="maxOff">Max Off:</label>
-                    <input type="number" id="maxOff" name="maxOff" value="<%=locals.data.minValue%>"
+                    <input type="number" id="maxOff" name="maxOff" value="<%=locals.data.maxAmount%>"
                         class="form-control" min="0" required>
                 </div>
 
@@ -39,6 +39,9 @@
                     <input type="text" value="<%= locals.data.couponid %>" class="" id="categoryId" name="couponId">
                 </div>
                 <button type="submit" class="btn btn-primary">SUBMIT</button>
+                <p class="text-danger">
+                    <%=locals.msg?locals.msg: "" %>
+                </p>
             </form>
         </div>
 

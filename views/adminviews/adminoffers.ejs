@@ -89,6 +89,31 @@
                                             <%})%>
                                     </tbody>
                                 </table>
+                                <% if(locals.page && locals.limit && locals.countpages){ %>
+                                    <div class="align-items-center">
+                              <nav aria-label="Page navigation example" style="width: 30%; margin: auto;">
+                                <ul class="pagination">
+                                  <li class="page-item">
+                                    <a class="page-link" href="/offermgt?&page=<%= Math.max(1, page - 1) %>&pagesize=<%= limit %>" aria-label="Previous">
+                                      <span aria-hidden="true">&laquo;</span>
+                                      <span class="sr-only">Previous</span>
+                                    </a>
+                                  </li>
+                                  <% for(let i = 1; i <= 2; i++) { %>
+                                    <li class="page-item <%= i === page ? 'active' : 'No data' %>">
+                                      <a class="page-link" href="/offermgt?&page=<%= i %>&pagesize=<%= limit %>"><%= i %></a>
+                                    </li>
+                                  <% } %> 
+                                   <li class="page-item">
+                                    <a class="page-link" href="/offermgt?&page=<%= Math.max(2, page + 1) %>&pagesize=<%= limit %>" aria-label="Next">
+                                      <span aria-hidden="true">&raquo;</span>
+                                      <span class="sr-only">Next</span>
+                                    </a>
+                                  </li>
+                                </ul>
+                              </nav>
+                              </div>
+                              <%}%> 
                             </div>
                         </div>
                     </div>

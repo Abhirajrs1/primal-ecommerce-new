@@ -46,15 +46,14 @@
                                     <h5 style="text-align: center; color: #FFFFFF;font-weight:500px ;padding-top: 5px;">Product Details</h5>
                                 </div>
                                 <% for(let j=0; j<orders[i].orderitems.length; j++) { %>
-                                <p>product Name: <strong><%=orders[i].orderitems[j].productname%></strong></p>
-                                <p>product price:<strong><%=orders[i].orderitems[j].productprice%></strong></p>
-                                <p>product quantity:<strong><%=orders[i].orderitems[j].productquantity%></strong></p>
-                                <br>
-                                <br>
-                                <% } %>
-                            </div>  
-
-        
+                                    <p>product Name: <strong><%=orders[i].orderitems[j].productname%></strong></p>
+                                    <p>product quantity:<strong><%=orders[i].orderitems[j].productquantity%></strong></p>
+                                    <p>product price:<strong><%=orders[i].orderitems[j].productprice%></strong></p>
+                                    <p>product total:<strong><%=orders[i].orderitems[j].productprice * orders[i].orderitems[j].productquantity%></strong></p>
+                                    <br>
+                                    <br>
+                                    <% } %>
+                            </div> 
                             <div class="order-info col-md-4" style="margin-top: 20px;">
 
                                 <div style="margin-bottom: 20px;     background: rgb(138, 131, 219);

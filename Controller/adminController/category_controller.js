@@ -108,7 +108,7 @@ const search_category = async (req, res) => {
     try {
         const search = req.body.search
         const data = await Category.find({ categoryname: { $regex: new RegExp(search, 'i') } })
-        res.render('adminviews/admincategory', { data })
+        res.render('adminviews/admincategory', { data ,pagepath:'category'})
     } catch (error) {
         console.log(error)
     }

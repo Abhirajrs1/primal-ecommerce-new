@@ -36,6 +36,17 @@ const addcoupons = async (req, res) => {
 }
 const addcoupon_post = async (req, res) => {
     try {
+        const couponName = req.body.couponName;
+        const couponCode = req.body.couponCode;
+        const existingCoupon=await Coupon.findOne({
+            $or: [
+                { couponname: { $regex: new RegExp('^'+couponName+'$', 'i') } },
+                { couponcode: { $regex: new RegExp('^'+couponCode+'$', 'i') } }
+            ]
+        })
+        if(existingCoupon){
+           return res.render('adminviews/addcoupons',{msg:"Coupon with same name/code already exists"})
+        }
         const coupon = {
             couponid: uuidv4(),
             couponname: req.body.couponName,
@@ -75,7 +86,9 @@ const edit_couponpost = async (req, res) => {
                     count: req.body.couponCount,
 
                 }
-            })
+            } ,
+            { new: true } 
+            )
         res.redirect('/coupons')
     } catch (error) {
         console.log(error);
@@ -100,11 +113,25 @@ const listandunlist_coupon = async (req, res) => {
     }
 }
 
+const search_coupon=async (req,res)=>{
+    try {
+        const search = req.body.search
+        const coupon=await Coupon.find({couponname:{$regex:new RegExp(search,'i')}})
+        res.render('adminviews/admincoupons',{coupon})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+
+
 module.exports = {
     coupons,
     addcoupons,
     addcoupon_post,
     edit_coupon,
     edit_couponpost,
-    listandunlist_coupon
+    listandunlist_coupon,
+    search_coupon
 }

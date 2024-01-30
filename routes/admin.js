@@ -51,6 +51,7 @@ router.post('/generateexcel',adminMiddleware.isAdmin,adminControl.generateexcel)
 // usermanagament
 router.get('/usersmgt', adminMiddleware.isAdmin, adminUserControl.admin_usermgt)
 router.get('/blockuser', adminMiddleware.isAdmin, adminUserControl.userblock)
+router.post('/searchuser',adminMiddleware.isAdmin,adminUserControl.search_user)
 
 // categorymanagement
 router.get('/categorymgt', adminMiddleware.isAdmin, adminCategoryControl.admin_categorymgt)
@@ -73,6 +74,7 @@ router.get('/listProduct', adminMiddleware.isAdmin, adminProductControl.unlistan
 router.get('/ordermgt', adminMiddleware.isAdmin, adminOrderControl.ordermgt)
 router.get('/orderdetails',adminMiddleware.isAdmin,adminOrderControl.orderdetails)
 router.get('/editorderstatus',adminMiddleware.isAdmin,adminOrderControl.edit_orderstatus)
+router.post('/searchorders',adminMiddleware.isAdmin,adminOrderControl.search_order)
 
 // couponmanagement
 router.get('/coupons',adminMiddleware.isAdmin,adminCouponControl.coupons)
@@ -81,6 +83,7 @@ router.post('/addcoupons',adminMiddleware.isAdmin,adminCouponControl.addcoupon_p
 router.get('/editcoupons',adminMiddleware.isAdmin,adminCouponControl.edit_coupon)  
 router.post('/editcoupons',adminMiddleware.isAdmin,adminCouponControl.edit_couponpost) 
 router.get('/listcoupon',adminMiddleware.isAdmin,adminCouponControl.listandunlist_coupon) 
+router.post('/searchcoupon',adminMiddleware.isAdmin,adminCouponControl.search_coupon)
 
 // offermanagement
 router.get('/offermgt',adminMiddleware.isAdmin,adminOfferControl.offerView)

@@ -71,7 +71,8 @@ const admin_dashboard = async (req, res) => {
         const monthlySales = await Order.aggregate([
             {
                 $match: {
-                    purchasedate: { $gte: getStartOfMonth() }
+                    purchasedate: { $gte: getStartOfMonth() },
+                    status:'Delivered'
                 }
             }, {
                 $group: {
@@ -81,6 +82,11 @@ const admin_dashboard = async (req, res) => {
         ])
         const yearlySales = await Order.aggregate([
             {
+                $match:{
+                    status:'Delivered'
+                }
+            },
+                {
                 $group: {
                     _id: { $year: "$purchasedate" },
                     totalSales: { $sum: "$total" }
@@ -102,10 +108,7 @@ const admin_dashboard = async (req, res) => {
 
 const report_view = async (req, res) => {
     try {
-        let query = {};
-        if (req.query.status && req.query.status != 'All') {
-            query.status = req.query.status;
-        }
+        let query = {status:'Delivered'};
         if (req.query.startDate && req.query.endDate) {
             const startDate = new Date(req.query.startDate);
             const endDate = new Date(req.query.endDate);
@@ -149,10 +152,10 @@ const report_view = async (req, res) => {
 
 const generatepdf = async (req, res) => {
     try {
-        const { status, customDay, customMonth, customYear, month, year } = req.query;
+        const {startDate,endDate, month, year } = req.query;
 
         // Construct query with filtering logic
-        const query = constructQuery(status, customDay, customMonth, customYear, month, year);
+        const query = constructQuery( "Delivered",startDate,endDate, month, year);
         let orders = await Order.find(query);
 
         const doc = new PDFDocument();
@@ -173,12 +176,8 @@ const generatepdf = async (req, res) => {
     }
 };
 
-function constructQuery(status,startDate,endDate, month, year) {
-    let query = {};
-
-    if (status && status !== 'All') {
-        query.status = status;
-    }
+function constructQuery(startDate,endDate, month, year) {
+    let query = {status:'Delivered'};
 
     // Apply date filters
     if (startDate && endDate) {
@@ -227,7 +226,7 @@ const excel_view = async (req, res) => {
 
 const generateexcel = async (req, res) => {
     try {
-        const orders = await Order.find();
+        const orders = await Order.find({status:'Delivered'});
         const workbook = new ExcelJS.Workbook();
         const worksheet = workbook.addWorksheet('Sales Report');
 

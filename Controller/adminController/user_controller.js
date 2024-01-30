@@ -43,9 +43,20 @@ const userblock = async (req, res) => {
     }
 }
 
+const search_user=async(req,res)=>{
+    try {
+        const search=req.body.search
+        const data=await User.find({username:{$regex:new RegExp(search,'i')}})
+        res.render('adminviews/adminusers',{data,pagepath:'users'})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 
 module.exports={
     admin_usermgt,
     userblock,
+    search_user
 }

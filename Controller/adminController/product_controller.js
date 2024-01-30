@@ -115,7 +115,7 @@ const search_product = async (req, res) => {
     try {
         const search = req.body.search
         const product = await Product.find({ name: { $regex: new RegExp(search, 'i') } })
-        res.render('adminviews/adminproducts', { product})
+        res.render('adminviews/adminproducts', { product,pagepath:'products'})
     } catch (error) {
         console.log(error)
     }

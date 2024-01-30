@@ -30,6 +30,16 @@
                     <label for="product-image" class="form-label">Image:</label>
                     <input type="file" value="<%=locals.old.image[0]%>" id="product-image" name="images" multiple
                         class="form-control" accept="image/*" required>
+                        <% if (locals.old.image && locals.old.image.length > 0) { %>
+                            <div class="mt-2">
+                                <label>Existing Image(s):</label>
+                                <% locals.old.image.forEach(img => { %>
+                                    <div class="existing-image-wrapper">
+                                        <img src="/productimages/<%= img %>" alt="<%= img %>" class="existing-image highlighted" style="max-width: 100px; max-height: 100px; margin-right: 10px;">
+                                    </div>
+                                <% }); %>
+                            </div>
+                        <% } %>
                 </div>
                 <div class="invisible">
                     <input type="text" value="<%= locals.old.productid %>" class="" id="productId" name="productId">

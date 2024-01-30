@@ -9,24 +9,7 @@
     <!-- new -->
     <div class="row" style="padding-bottom: 70px;">
       <!-- Filter by Status -->
-      <div class="col-md-4" style="margin-bottom: 60px;margin-bottom: 10px;">
-
-        <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            FILTER BY STATUS
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="/report?status=All">ALL</a></li>
-            <li><a class="dropdown-item" href="/report?status=Placed">PLACED</a></li>
-            <li><a class="dropdown-item" href="/report?status=Cancelled">CANCEL</a></li>
-            <li><a class="dropdown-item" href="/report?status=Delivered">DELIVERED</a></li>
-            <li><a class="dropdown-item" href="/report?status=Returned">RETURNED</a></li>
-                
-          </ul>
-        </div>
-      </div>
-
+      
       <!-- Filter by Month -->
       <div class="col-md-4">
         <div class="dropdown">
@@ -132,6 +115,7 @@
                 </tr>
               </thead>
               <% for (let i=0; i < orders.length; i++) { %>
+                <% if(orders[i].status=="Delivered") {%>
                 <tbody>
                   <tr>
                     <th scope="row">
@@ -160,6 +144,7 @@
                     </td>
                   </tr>
                 </tbody>
+                <% } %>
                 <% } %>
             </table>
           </div>

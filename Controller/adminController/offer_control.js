@@ -13,8 +13,12 @@ const session = require('express-session')
 
 const offerView = async (req, res) => {
     try {
-        let offer = await Offer.find({})
-        res.render('adminviews/adminoffers', { offer, pagepath: 'offers' })
+        const page = Number(req.query.page) || 1;
+        const limit = Number(req.query.pagesize) || 10;
+        const skip = (page - 1) * limit;
+        let offer = await Offer.find({}).sort({ $natural: -1 }).skip(skip).limit(limit);
+        let countpages = Math.ceil(offer.length / limit);
+        res.render('adminviews/adminoffers', { offer, pagepath: 'offers',countpages,page ,limit})
     } catch (error) {
         console.log(error);
     }

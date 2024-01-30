@@ -234,41 +234,60 @@ const couponImplement=async(req,res)=>{
         console.log(error)
     }
 }
-const downloadinvoice=async(req,res)=>{
+const downloadinvoice = async (req, res) => {
     try {
-        const orders=await Order.findOne({orderid:req.query.id})
+        const order = await Order.findOne({ orderid: req.query.id });
+
         const doc = new pdfDoc({ margin: 50 });
 
         doc.fontSize(18).text('TAX INVOICE', { align: 'center' });
+        doc.moveDown();
+        doc.lineCap('butt').moveTo(50, doc.y).lineTo(550, doc.y).stroke();
 
-doc.moveDown();
-doc.lineCap('butt').moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+        doc.moveDown();
+        doc.fontSize(16).text('ORDER DETAILS', { underline: true });
+        doc.moveDown();
 
-doc.moveDown(); 
-doc.fontSize(16).text('Order Details', { underline: true });
-doc.fontSize(12).text(`Order Id: ${orders.orderid}`);
-doc.text(`Purchase email: ${orders.email}`);
-doc.text(`Total Amount: ${orders.total}`);
-doc.text(`Date of Delivery: ${orders.deliverydate}`);
-doc.text(`Payment Method: ${orders.paymentmethod}`);
-doc.text(`Order Status: ${orders.status}`);
+        doc.fontSize(12).text(`Order Id: ${order.orderid}`);
+        doc.text(`Purchase email: ${order.email}`);
+        doc.text(`Date of Delivery: ${order.deliverydate}`);
+        doc.text(`Payment Method: ${order.paymentmethod}`);
+        doc.text(`Order Status: ${order.status}`);
 
-doc.moveDown();
-doc.lineCap('butt').moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+        // Iterate through products and add details
+        doc.moveDown();
+        doc.lineCap('butt').moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+        doc.moveDown();
+        doc.fontSize(16).text('PRODUCT DETAILS', { underline: true });
 
-doc.moveDown(); 
-doc.fontSize(14).text('Thank you for shopping with us!', { align: 'center' });
+        order.orderitems.forEach((product, index) => {
+            doc.moveDown();
+            doc.fontSize(12).text(`Product:${index + 1}`,{underline:true});
+            doc.text(`Name: ${product.productname}`);
+            doc.text(`Price: ${product.productprice}`);
+            doc.text(`Quantity: ${product.productquantity}`);
+            doc.text(`Subtotal: ${product.productprice * product.productquantity}`);
+        });
+        // Calculate and display the total price of all products
+        const productsTotal = order.orderitems.reduce((total, product) => total + product.productprice * product.productquantity, 0);
+        doc.fontSize(14).text(`Total Price:Rs.${productsTotal}/-`, { align: 'right' });
 
-res.setHeader('Content-Type', 'application/pdf');
-res.setHeader('Content-Disposition', `attachment; filename=Invoice_${orders.orderid}.pdf`);
+        doc.moveDown();
+        doc.lineCap('butt').moveTo(50, doc.y).lineTo(550, doc.y).stroke();
+        doc.moveDown();
+        doc.fontSize(14).text('Thank you for shopping with us!', { align: 'center' });
 
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', `attachment; filename=Invoice_${order.orderid}.pdf`);
 
-doc.pipe(res);
-doc.end();
+        doc.pipe(res);
+        doc.end();
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        res.status(500).send('Error generating the PDF invoice');
     }
-}
+};
+
 
 
 module.exports={

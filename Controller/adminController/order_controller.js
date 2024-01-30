@@ -57,9 +57,20 @@ const edit_orderstatus = async (req, res) => {
     }
 }
 
+const search_order=async(req,res)=>{
+    try {
+        const search=req.body.search
+        const orders=await Order.find({status:{$regex:new RegExp(search,'i')}})
+        res.render('adminviews/adminorders',{orders,pagepath:'orders'})
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 
 module.exports = {
     ordermgt,
     orderdetails,
-    edit_orderstatus
+    edit_orderstatus,
+    search_order
 }
