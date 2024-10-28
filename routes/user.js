@@ -34,16 +34,16 @@ router.get('/forgotpassword',userControl.forgotPassword)
 router.post('/forgotpassword',userControl.post_forgotpassword)
 
 // otp for resetpassword
-router.get('/resetpwotp',userControl.resetpw_otp)
-router.post('/resetpwotp',userControl.post_resetpwotp)
+// router.get('/resetpwotp',userControl.resetpw_otp)
+// router.post('/resetpwotp',userControl.post_resetpwotp)
 
 // resetpassword
 router.get('/resetpassword',userControl.reset_password)
 router.post('/resetpassword',userControl.post_resetpassword)
 
 // otpforsignup
-router.get('/otp', userMiddleware.isOtp, userControl.userload_otp)
-router.post('/otp',userControl.userpost_otp)
+// router.get('/otp', userMiddleware.isOtp, userControl.userload_otp)
+// router.post('/otp',userControl.userpost_otp)
 
 // userside product
 router.get('/product-view',productControl.productView)

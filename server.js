@@ -37,7 +37,7 @@ app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    // store: store,
+    store: store,
 }));
 
 // Serve static files using express.static

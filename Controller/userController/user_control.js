@@ -120,7 +120,7 @@ const userload_register = async (req, res) => {
             }
             await User.updateOne({ referralCode: referedCode }, { $push: { wallethistory: { process: "Referral Offer", amount: Amount, date: new Date() } } })
             await User.updateOne({ referralCode: referedCode }, { $inc: { walletbalance: Amount } })
-            res.redirect('/otp')
+            res.redirect('userviews/login')
         }
     } catch (error) {
         res.render('userviews/register', { error: 'An error occured while registering' })
@@ -170,40 +170,40 @@ function referral_url(referedCode){
 let referrallink = `http://localhost:3500/register?referral=${referralCode}`;
 }
 
-const userload_otp = async (req, res) => {
-    let otp = ''
-    for (let i = 0; i < 4; i++) {
-        otp += Math.floor(Math.random() * 10)
-    }
-    console.log(otp, "OTP");
+// const userload_otp = async (req, res) => {
+//     let otp = ''
+//     for (let i = 0; i < 4; i++) {
+//         otp += Math.floor(Math.random() * 10)
+//     }
+//     console.log(otp, "OTP");
 
-    req.session.otp = otp
-    client.messages.create({
-        body: `<#> ${otp} is your verification code `,
-        to: '+919745151981',
-        from: '+12567248180',
-    })
-        .then((message) => console.log(message,"MESSAGE"))
-        .catch((error) => {
-            console.log(error,"ERROR");
-        });
-    res.render('userviews/otp')
-}
+//     req.session.otp = otp
+//     client.messages.create({
+//         body: `<#> ${otp} is your verification code `,
+//         to: '+919745151981',
+//         from: '+12567248180',
+//     })
+//         .then((message) => console.log(message,"MESSAGE"))
+//         .catch((error) => {
+//             console.log(error,"ERROR");
+//         });
+//     res.render('userviews/otp')
+// }
 
-const userpost_otp = async (req, res) => {
-    try {
-        if (req.session.otp === req.body.otp) {
-            req.session.otp = null;
-            await User.updateOne({ useremail: req.session.email }, { $set: { isverified: true } })
-            res.redirect('/')
-        } else {
-            res.render('userviews/otp', { msg: "Incorrect OTP" })
-        }
-    } catch (err) {
-        console.log(err);
-    }
+// const userpost_otp = async (req, res) => {
+//     try {
+//         if (req.session.otp === req.body.otp) {
+//             req.session.otp = null;
+//             await User.updateOne({ useremail: req.session.email }, { $set: { isverified: true } })
+//             res.redirect('/')
+//         } else {
+//             res.render('userviews/otp', { msg: "Incorrect OTP" })
+//         }
+//     } catch (err) {
+//         console.log(err);
+//     }
 
-}
+// }
 const user_logout = (req, res) => {
     req.session.destroy((err) => {
         if (err) {
@@ -235,35 +235,35 @@ const post_forgotpassword=async(req,res)=>{
     }
 }
 
-const resetpw_otp=async(req,res)=>{
-    let otp = ''
-    for (let i = 0; i < 4; i++) {
-        otp += Math.floor(Math.random() * 10)
-    }
-    console.log(otp, "OTP");
+// const resetpw_otp=async(req,res)=>{
+//     let otp = ''
+//     for (let i = 0; i < 4; i++) {
+//         otp += Math.floor(Math.random() * 10)
+//     }
+//     console.log(otp, "OTP");
 
-    req.session.otp = otp
-    client.messages.create({
-        body: `<#> ${otp} is your verification code `,
-        to: '+919745151981',
-        from: '+12567248180',
-    })
-        .then((message) => console.log(message,"MESSAGE"))
-        .catch((error) => {
-            console.log(error,"ERROR");
-        });
-    res.render('userviews/passwordotp')
-}
+//     req.session.otp = otp
+//     client.messages.create({
+//         body: `<#> ${otp} is your verification code `,
+//         to: '+919745151981',
+//         from: '+12567248180',
+//     })
+//         .then((message) => console.log(message,"MESSAGE"))
+//         .catch((error) => {
+//             console.log(error,"ERROR");
+//         });
+//     res.render('userviews/passwordotp')
+// }
 
-const post_resetpwotp=async(req,res)=>{
-    try {
-        if(req.session.otp===req.body.otp){
-            res.redirect('/resetpassword')
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
+// const post_resetpwotp=async(req,res)=>{
+//     try {
+//         if(req.session.otp===req.body.otp){
+//             res.redirect('/resetpassword')
+//         }
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 const reset_password=async(req,res)=>{
     try {
         res.render('userviews/resetpassword')
@@ -295,13 +295,13 @@ module.exports = {
     userload_login,
     user_register,
     userload_register,
-    userload_otp,
-    userpost_otp,
+    // userload_otp,
+    // userpost_otp,
     user_logout,
     forgotPassword,
     post_forgotpassword,
-    resetpw_otp,
-    post_resetpwotp,
+    // resetpw_otp,
+    // post_resetpwotp,
     reset_password,
     post_resetpassword
     
