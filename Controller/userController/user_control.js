@@ -49,17 +49,17 @@ const userload_login = async (req, res) => {
   
       if (check) {
         if (!req.body.password) {
-          return res.render('userviews/login', { error: "Password required" });
+          return res.render('userviews/login', { error: true, errorMessage:"Password required" });
         }
         const passWordCheck=await bcrypt.compare(req.body.password,check.userpassword)
         if(passWordCheck){
             req.session.user = check.useremail;
           res.redirect('/');
         } else {
-          res.render('userviews/login', { error: "Incorrect password" });
+          res.render('userviews/login', { error: true, errorMessage:"Incorrect password" });
         }
       } else {
-        res.render('userviews/login', { error: "User not found" });
+        res.render('userviews/login', { error: true, errorMessage: "User not found" });
       }
     } catch (error) {
       console.log("ERROR", error);
