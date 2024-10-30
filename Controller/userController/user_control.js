@@ -109,7 +109,7 @@ const userload_register = async (req, res) => {
                 referralCode: newreferralCode,
                 referedBy: referedCode
 
-            }
+            }            
             await User.create(data)
             let amount = 10
             let Amount = 50
@@ -120,24 +120,25 @@ const userload_register = async (req, res) => {
             }
             await User.updateOne({ referralCode: referedCode }, { $push: { wallethistory: { process: "Referral Offer", amount: Amount, date: new Date() } } })
             await User.updateOne({ referralCode: referedCode }, { $inc: { walletbalance: Amount } })
-            res.redirect('userviews/login')
+            res.redirect('/login')
         }
     } catch (error) {
+        console.log(error);
         res.render('userviews/register', { error: 'An error occured while registering' })
     }
 }
 
 // functions for validation start
 function isValidateName(name){
-    const username=/^[A-Z][a-zA-Z]{7}$/.test(name)
-    return username
+    // const username=/^[A-Z][a-zA-Z]{7}$/.test(name)
+    return name
 }
 
 function isValidEmail(email) {
     if (email.includes(' ')) {
         return false;
     }
-    if (!email.endWith('@gmail.com')) {
+    if (!email.endsWith('@gmail.com')) {
         return false;
     }
     return true

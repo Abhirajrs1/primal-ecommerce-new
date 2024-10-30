@@ -33,6 +33,7 @@ const wallethistory=async(req,res)=>{
     try {
         const user=await User.findOne({useremail:req.session.user})
         const wallethistory=user.wallethistory
+        wallethistory.sort((a,b)=>new Date(b.date) - new Date(a.date))
         res.render('userviews/wallethistory',{user,wallethistory,moment})
     } catch (error) {
         console.log(error);
