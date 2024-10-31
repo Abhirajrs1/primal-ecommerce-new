@@ -32,6 +32,10 @@ const couponSchema=new mongoose.Schema({
         type:Number,
         required:true
     },
+    minimumPrice:{
+        type:Number,
+        required:true
+    },
     enable:{
         type:Boolean,
         default:true

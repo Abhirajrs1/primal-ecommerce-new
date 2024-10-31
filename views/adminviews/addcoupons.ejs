@@ -26,6 +26,11 @@
                         required>
                 </div>
                 <div class="form-group" style="margin-top: 2%;margin-bottom: 2%;">
+                    <label for="minAmt">Minimum Amout:</label>
+                    <input type="number" id="minAmt" name="minAmt" class="form-control" min="0" placeholder="Minimum Amout"
+                        required>
+                </div>
+                <div class="form-group" style="margin-top: 2%;margin-bottom: 2%;">
                     <label for="expiryDate">Expiry Date:</label>
                     <input type="date" id="expiryDate" name="expiryDate" min="<%= new Date().toISOString().slice(0, 10) %>" class="form-control" placeholder="Expiry"
                         required>
