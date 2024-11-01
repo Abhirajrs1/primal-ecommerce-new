@@ -55,6 +55,7 @@ const addcoupon_post = async (req, res) => {
             expiryDate: req.body.expiryDate,
             maxAmount: req.body.maxOff,
         }
+        
         await Coupon.insertMany([coupon])
         res.redirect('/coupons')
     } catch (error) {
