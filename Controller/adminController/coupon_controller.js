@@ -54,8 +54,8 @@ const addcoupon_post = async (req, res) => {
             coupondiscount: req.body.offerPercentage,
             expiryDate: req.body.expiryDate,
             maxAmount: req.body.maxOff,
+            minimumPrice:req.body.minAmt
         }
-        
         await Coupon.insertMany([coupon])
         res.redirect('/coupons')
     } catch (error) {
@@ -84,7 +84,7 @@ const edit_couponpost = async (req, res) => {
                     coupondiscount: req.body.offerPercentage,
                     expiryDate: req.body.expiryDate,
                     maxAmount: req.body.maxOff,
-                    count: req.body.couponCount,
+                    minimumPrice:req.body.minAmt
 
                 }
             } ,
