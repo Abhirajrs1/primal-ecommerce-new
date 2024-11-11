@@ -23,7 +23,7 @@
 
                <div class="col-4" style="margin-left: 1%;">
                   <form action="/search_userproduct" method="post" class="d-flex align-items-center">
-                      <input class="form-control me-2" type="search" placeholder="Search" id="search" name="search">
+                      <input class="form-control me-2" type="search" placeholder="Search" id="search" name="search"  value="<%= typeof searchTerm !== 'undefined' ? searchTerm : '' %>">
                       <div >
                           <button style="background-color:black ;color: antiquewhite;padding: 7px;border-radius: 10px;margin-left: 2px;margin-bottom: 20px;">Search
                           </button>
@@ -162,42 +162,49 @@
          <a href="/productlist" class="btn btn-success" style="margin-left: 20px;">&#9003 Clear</a>
          <h3 style="margin-bottom: 30px;margin-top: 40px;"><strong>CATEGORIES</strong></h3>
          <form id="categoryForm" method="post" action="/categoryfilter">
-             <% category.forEach((category) => { %>
-                 <label style="margin-bottom: 10px;">
-                     <input type="radio" name="category" value="<%= category.categoryname %>">
-                     <%= category.categoryname %>
-                 </label><br>
-             <% }) %>
-             <button  class="btn btn-block btn-primary font-weight-bold py-2 " style="width: fit-content; margin-left: 50px;margin-bottom: 60px;" type="submit">FILTER</button>
-
-         </form>
+            <% category.forEach((cat) => { %>
+              <label style="margin-bottom: 10px;">
+                <input
+                  type="radio"
+                  name="category"
+                  value="<%= cat.categoryname %>"
+                  <%= selectedCategory === cat.categoryname ? 'checked' : '' %>
+                />
+                <%= cat.categoryname %>
+              </label><br>
+            <% }) %>
+            <button
+              class="btn btn-block btn-primary font-weight-bold py-2"
+              style="width: fit-content; margin-left: 50px; margin-bottom: 60px;"
+              type="submit"
+            >
+              FILTER
+            </button>
+          </form>
 
          <h3 style="margin-bottom: 30px;margin-top: 40px;white-space: nowrap;"><strong>PRICE RANGE</strong></h3>
 
          <form id="priceRangeForm" method="post" action="/pricefilter" style="display: flex; flex-direction: column; align-items: flex-start;white-space: nowrap; ">
-
             <label style="display: flex; align-items: center; margin-bottom: 20px; width: 120px;margin-left: 20px;">
-                <input type="radio" name="priceRange" value="1000-1999">
+                <input type="radio" name="priceRange" value="1000-1999" <%= selectedPriceRange === '1000-1999' ? 'checked' : '' %>>
                 <span style="margin-left: 20px; font-size: 15px; font-weight: bold;">1000-1999</span>
             </label>
-            <!-- Add similar labels for other price ranges -->
             <label style="display: flex; align-items: center; margin-bottom: 20px; width: 120px;margin-left: 20px;">
-                <input type="radio" name="priceRange" value="2000-2999">
+                <input type="radio" name="priceRange" value="2000-2999" <%= selectedPriceRange === '2000-2999' ? 'checked' : '' %>>
                 <span style="margin-left: 20px; font-size: 15px; font-weight: bold;">2000-2999</span>
             </label>
             <label style="display: flex; align-items: center; margin-bottom: 20px; width: 120px;margin-left: 20px;">
-               <input type="radio" name="priceRange" value="3000-3999">
-               <span style="margin-left: 20px; font-size: 15px; font-weight: bold;">3000-3999</span>
-           </label>
-           <label style="display: flex; align-items: center; margin-bottom: 20px; width: 120px;margin-left: 20px;">
-            <input type="radio" name="priceRange" value="4000-4999">
-            <span style="margin-left: 20px; font-size: 15px; font-weight: bold;">4000-4999</span>
-          </label>
-          <label style="display: flex; align-items: center; margin-bottom: 20px; width: 120px;margin-left: 20px;">
-         <input type="radio" name="priceRange" value="5000-5999">
-            <span style="margin-left: 20px; font-size: 15px; font-weight: bold;">5000-5999</span>
-         </label>
-            <!-- Repeat for other price ranges -->
+                <input type="radio" name="priceRange" value="3000-3999" <%= selectedPriceRange === '3000-3999' ? 'checked' : '' %>>
+                <span style="margin-left: 20px; font-size: 15px; font-weight: bold;">3000-3999</span>
+            </label>
+            <label style="display: flex; align-items: center; margin-bottom: 20px; width: 120px;margin-left: 20px;">
+                <input type="radio" name="priceRange" value="4000-4999" <%= selectedPriceRange === '4000-4999' ? 'checked' : '' %>>
+                <span style="margin-left: 20px; font-size: 15px; font-weight: bold;">4000-4999</span>
+            </label>
+            <label style="display: flex; align-items: center; margin-bottom: 20px; width: 120px;margin-left: 20px;">
+                <input type="radio" name="priceRange" value="5000-5999" <%= selectedPriceRange === '5000-5999' ? 'checked' : '' %>>
+                <span style="margin-left: 20px; font-size: 15px; font-weight: bold;">5000-5999</span>
+            </label>
             <button class="btn btn-block btn-primary font-weight-bold py-2" style="width: fit-content; margin-left: 50px;" type="submit">FILTER</button>
         </form>
      </div> 

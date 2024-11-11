@@ -77,7 +77,10 @@ const productlist=async(req,res)=>{
         const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
 
         const category=await Category.find({})
-        res.render('userviews/productlist',{user,data,category,page,totalPages})     
+        const selectedCategory = '';
+        const selectedPriceRange=''
+        const searchTerm=''
+        res.render('userviews/productlist',{user,data,category,page,totalPages,selectedCategory,selectedPriceRange,searchTerm})     
     } catch (error) {
         console.log(error);      
     }
@@ -116,8 +119,10 @@ const search_userProduct=async(req,res)=>{
 
     const totalProducts = await Product.countDocuments();
     const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
+    const selectedCategory = '';
+    const selectedPriceRange=''
 
-        res.render('userviews/productlist',{data,user,category,page,totalPages})
+        res.render('userviews/productlist',{data,user,category,page,totalPages,selectedCategory,selectedPriceRange,searchTerm: search })
     } catch (error) {
         console.log(error)
         
@@ -125,44 +130,62 @@ const search_userProduct=async(req,res)=>{
 
 }
 
-const category_filter=async(req,res)=>{
+const category_filter = async (req, res) => {
     try {
-        const ITEMS_PER_PAGE = 9;
-        const page = +req.query.page || 1; 
-        const skip = (page - 1) * ITEMS_PER_PAGE;
-        const user=await User.findOne({useremail:req.session.user})
-        const category=await Category.find({})
-        const cat=req.body.category
-        const data=await Product.aggregate([
-            {$match:{categoryname:cat}},
-            {
-                $lookup:
-                {
-                    from:'offers',
-                    localField:'name',
-                    foreignField:'productName',
-                    as:'productOffer'
-                },
-            },
-            {
-                $lookup:
-                {
-                    from:'offers',
-                    localField:'categoryname',
-                    foreignField:'categoryName',
-                    as:'categoryOffer'
-                },  
-            }
-        ]).skip(skip)
+      const ITEMS_PER_PAGE = 9;
+      const page = +req.query.page || 1;
+      const skip = (page - 1) * ITEMS_PER_PAGE;
+  
+      const user = await User.findOne({ useremail: req.session.user });
+      const category = await Category.find({});
+      const selectedCategory = req.method === 'POST' ? req.body.category : '';
+      const matchStage = selectedCategory
+      ? { categoryname: selectedCategory }
+      : {};
+  
+      const data = await Product.aggregate([
+        { $match: matchStage },
+        {
+          $lookup: {
+            from: 'offers',
+            localField: 'name',
+            foreignField: 'productName',
+            as: 'productOffer',
+          },
+        },
+        {
+          $lookup: {
+            from: 'offers',
+            localField: 'categoryname',
+            foreignField: 'categoryName',
+            as: 'categoryOffer',
+          },
+        },
+      ])
+        .skip(skip)
         .limit(ITEMS_PER_PAGE);
-
-    const totalProducts = await Product.countDocuments();
-    const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
-        res.render('userviews/productlist',{data,user,category,page,totalPages})
+  
+        const totalProducts = selectedCategory
+        ? await Product.countDocuments({ categoryname: selectedCategory })
+        : await Product.countDocuments();
+      const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
+      const selectedPriceRange=''
+       const searchTerm=''
+  
+      res.render('userviews/productlist', {
+        data,
+        user,
+        category,
+        page,
+        totalPages,
+        selectedCategory,
+        selectedPriceRange ,
+        searchTerm
+      });
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
-}
+  };
 
 const price_filter=async(req,res)=>{
     try {
@@ -221,8 +244,10 @@ const price_filter=async(req,res)=>{
         .limit(ITEMS_PER_PAGE);
 
     const totalProducts = await Product.countDocuments();
+     const searchTerm=''
     const totalPages = Math.ceil(totalProducts / ITEMS_PER_PAGE);
-        res.render('userviews/productlist', {data,user,category,page,totalPages});
+        res.render('userviews/productlist', {data,user,category,page,totalPages,selectedPriceRange,
+            selectedCategory: '',searchTerm});
 
     } catch (error) {
         console.log(error)
