@@ -438,73 +438,72 @@
                                                 </div>
                                             </div>
                                         </div>
-                                            <input id="last" type="hidden" value="<%=total%>" name="total">
+                                        <input id="last" type="hidden" value="<%=total%>" name="total">
 
-                                        </div>
                                     </div>
-
-
-                                    <div class="pt-2">
-                                        <div class="d-flex justify-content-between mt-2"
-                                            style="font-weight: 700;margin-top: 10px;">
-                                            <h5>Total</h5>
-                                            <h5 style="font-weight: 700;margin-top: 10px;" id="gT">Rs <%=total%>
-                                            </h5>
-
-                                            <input id="last" type="hidden" value="<%=total%>" name="total">
-
-                                        </div>
-                                    </div>
-
-                                    <!-- payment options -->
-
-                                    <hr>
-                                    <div
-                                        style="margin-bottom: 40px; height: 30px; text-align: center;background-color: #000;color: #ddd;font-weight: 700;font-family: Arial, Helvetica, sans-serif;width: auto;border-radius: 8px;">
-                                        <h5 style="padding-top: 2px;"><span>Payment</span>
-                                        </h5>
-                                    </div>
-
-                                    <div class=" p-30">
-                                        <div class="d-flex justify-content-between align-items-center pe-5">
-                                            <div class="form-group">
-                                                <div class="custom-control custom-radio">
-                                                    <input type="radio" class="custom-control-input " name="payment"
-                                                        id="COD" value="COD">
-                                                    <label class="custom-control-label " for="COD">COD</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
-                                                <div class="custom-control custom-radio">
-                                                    <input type="radio" class="custom-control-input" name="payment"
-                                                        id="Online" value="Online">
-                                                    <label class="custom-control-label " for="Online">Online
-                                                        payment</label>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="custom-control custom-radio">
-                                                    <input type="radio" class="custom-control-input" name="payment"
-                                                        id="Wallet" value="Wallet">
-                                                    <label class="custom-control-label " for="Wallet">Wallet</label>
-
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <h6 style="font-weight: 700;margin-top: 10px;"> WALLET
-                                            <%=wallet%>
-                                        </h6>
-                                        <button class="btn btn-block btn-primary font-weight-bold py-3"
-                                            type="submit">Place
-                                            Order
-                                        </button>
-                                    </div>
-
-                                    <!--End payment options -->
                                 </div>
+
+
+                                <div class="pt-2">
+                                    <div class="d-flex justify-content-between mt-2"
+                                        style="font-weight: 700;margin-top: 10px;">
+                                        <h5>Total</h5>
+                                        <h5 style="font-weight: 700;margin-top: 10px;" id="gT">Rs <%=total%>
+                                        </h5>
+
+                                        <input id="last" type="hidden" value="<%=total%>" name="total">
+
+                                    </div>
+                                </div>
+
+                                <!-- payment options -->
+
+                                <hr>
+                                <div
+                                    style="margin-bottom: 40px; height: 30px; text-align: center;background-color: #000;color: #ddd;font-weight: 700;font-family: Arial, Helvetica, sans-serif;width: auto;border-radius: 8px;">
+                                    <h5 style="padding-top: 2px;"><span>Payment</span>
+                                    </h5>
+                                </div>
+
+                                <div class=" p-30">
+                                    <div class="d-flex justify-content-between align-items-center pe-5">
+                                        <div class="form-group">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input " name="payment"
+                                                    id="COD" value="COD">
+                                                <label class="custom-control-label " for="COD">COD</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" name="payment"
+                                                    id="Online" value="Online">
+                                                <label class="custom-control-label " for="Online">Online
+                                                    payment</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="custom-control custom-radio">
+                                                <input type="radio" class="custom-control-input" name="payment"
+                                                    id="Wallet" value="Wallet">
+                                                <label class="custom-control-label " for="Wallet">Wallet</label>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h6 style="font-weight: 700;margin-top: 10px;"> WALLET
+                                        <%=wallet%>
+                                    </h6>
+                                    <button class="btn btn-block btn-primary font-weight-bold py-3" type="submit">Place
+                                        Order
+                                    </button>
+                                </div>
+
+                                <!--End payment options -->
                             </div>
+                        </div>
 
 
 
@@ -565,7 +564,8 @@
                                                         <%=coupons.couponcode%>
                                                     </div>
                                                     <div class="coupon-price">
-                                                        <%=coupons.coupondiscount%>% OFF on purchase above ₹<%=coupons.minimumPrice%>
+                                                        <%=coupons.coupondiscount%>% OFF on purchase above ₹
+                                                            <%=coupons.minimumPrice%>
                                                     </div>
                                                 </div>
 
@@ -586,7 +586,7 @@
                         </div>
                     </div>
 
-                    </div>
+                </div>
                 </div>
                 </div>
                 <hr>
@@ -604,103 +604,103 @@
     <!--model end-->
 
     <script>
-       let currentCouponDetails = null;
+        let currentCouponDetails = null;
 
-function applyCoupon() {
-    document.getElementById('modalClose').click();
-    
-    const total = document.getElementsByName('total')[0].value;
-    const coupon = document.getElementsByName('couponCode')[0].value;
-    
-    fetch('/couponImplement', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ couponCode: coupon, total: total }),
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.success) {
-            if (total >= data.minimumPrice) {
-                const discount = Number(total) - Number(data.discountedTotal);
-                
-                // Update display elements
-                document.getElementById('couponDiscount').innerText = `-${discount}`;
-                document.getElementById('gT').innerText = `Rs.${data.discountedTotal}`;
-                document.getElementById('last').value = data.discountedTotal;
+        function applyCoupon() {
+            document.getElementById('modalClose').click();
 
-                // Store coupon details
-                currentCouponDetails = {
-                    code: coupon,
-                    discount: discount,
-                    originalTotal: total,
-                    discountedTotal: data.discountedTotal
-                };
+            const total = document.getElementsByName('total')[0].value;
+            const coupon = document.getElementsByName('couponCode')[0].value;
 
-                // Show applied coupon details
-                document.getElementById('couponName').textContent = `Applied Coupon: ${coupon}`;
-                document.getElementById('appliedCouponDetails').style.display = 'block';
+            fetch('/couponImplement', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ couponCode: coupon, total: total }),
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        if (total >= data.minimumPrice) {
+                            const discount = Number(total) - Number(data.discountedTotal);
 
-                // Clear modal input
-                document.getElementsByName('couponCode')[0].value = '';
-                
+                            // Update display elements
+                            document.getElementById('couponDiscount').innerText = `-${discount}`;
+                            document.getElementById('gT').innerText = `Rs.${data.discountedTotal}`;
+                            document.getElementById('last').value = data.discountedTotal;
+
+                            // Store coupon details
+                            currentCouponDetails = {
+                                code: coupon,
+                                discount: discount,
+                                originalTotal: total,
+                                discountedTotal: data.discountedTotal
+                            };
+
+                            // Show applied coupon details
+                            document.getElementById('couponName').textContent = `Applied Coupon: ${coupon}`;
+                            document.getElementById('appliedCouponDetails').style.display = 'block';
+
+                            // Clear modal input
+                            document.getElementsByName('couponCode')[0].value = '';
+
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'Coupon applied successfully',
+                                icon: 'success',
+                                confirmButtonColor: '#28a745'
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Cannot Apply Coupon',
+                                text: `Minimum purchase amount should be Rs.${data.minimumPrice} to use this coupon`,
+                                icon: 'warning',
+                                confirmButtonColor: '#f8bb86'
+                            });
+                        }
+                    } else {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: data.message || 'Invalid coupon code',
+                            icon: 'error',
+                            confirmButtonColor: '#dc3545'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Something went wrong. Please try again.',
+                        icon: 'error',
+                        confirmButtonColor: '#dc3545'
+                    });
+                });
+        }
+
+        function removeCoupon() {
+            if (currentCouponDetails) {
+                document.getElementById('couponDiscount').innerText = 'No Coupon';
+                document.getElementById('gT').innerText = `Rs.${currentCouponDetails.originalTotal}`;
+                document.getElementById('last').value = currentCouponDetails.originalTotal;
+                document.getElementById('appliedCouponDetails').style.display = 'none';
+                document.getElementById('couponName').textContent = '';
+
+                currentCouponDetails = null;
+
                 Swal.fire({
-                    title: 'Success!',
-                    text: 'Coupon applied successfully',
+                    title: 'Coupon Removed',
+                    text: 'Coupon has been removed successfully',
                     icon: 'success',
                     confirmButtonColor: '#28a745'
                 });
-            } else {
-                Swal.fire({
-                    title: 'Cannot Apply Coupon',
-                    text: `Minimum purchase amount should be Rs.${data.minimumPrice} to use this coupon`,
-                    icon: 'warning',
-                    confirmButtonColor: '#f8bb86'
-                });
             }
-        } else {
-            Swal.fire({
-                title: 'Error!',
-                text: data.message || 'Invalid coupon code',
-                icon: 'error',
-                confirmButtonColor: '#dc3545'
-            });
         }
-    })
-    .catch(error => {
-        console.error(error);
-        Swal.fire({
-            title: 'Error!',
-            text: 'Something went wrong. Please try again.',
-            icon: 'error',
-            confirmButtonColor: '#dc3545'
+
+        document.getElementById('exampleModal').addEventListener('hidden.bs.modal', function () {
+            document.getElementsByName('couponCode')[0].value = '';
         });
-    });
-}
-
-function removeCoupon() {
-    if (currentCouponDetails) {
-        document.getElementById('couponDiscount').innerText = 'No Coupon';
-        document.getElementById('gT').innerText = `Rs.${currentCouponDetails.originalTotal}`;
-        document.getElementById('last').value = currentCouponDetails.originalTotal;
-        document.getElementById('appliedCouponDetails').style.display = 'none';
-        document.getElementById('couponName').textContent = '';
-        
-        currentCouponDetails = null;
-
-        Swal.fire({
-            title: 'Coupon Removed',
-            text: 'Coupon has been removed successfully',
-            icon: 'success',
-            confirmButtonColor: '#28a745'
-        });
-    }
-}
-
-document.getElementById('exampleModal').addEventListener('hidden.bs.modal', function () {
-    document.getElementsByName('couponCode')[0].value = '';
-});
 
     </script>
 
@@ -737,11 +737,9 @@ document.getElementById('exampleModal').addEventListener('hidden.bs.modal', func
                                                 if (response.success) {
                                                     console.log("Success", response);
                                                     window.location.href = '/ordersuccess';
-                                                    alert(response.msg)
                                                 } else {
                                                     console.log("failed.....", response);
 
-                                                    alert("payment failed")
                                                 }
                                             }
                                         })
@@ -760,7 +758,12 @@ document.getElementById('exampleModal').addEventListener('hidden.bs.modal', func
                                 };
                                 var razorpayObject = new Razorpay(options);
                                 razorpayObject.on('payment.failed', function (response) {
-                                    alert("Payment Failed");
+                                    Swal.fire({
+                                    title: 'Payment Failed!',
+                                    text: 'Your payment could not be processed. Please try again.',
+                                    icon: 'error',
+                                    confirmButtonColor: '#dc3545'
+                                });
                                 });
                                 razorpayObject.open();
                             } else if (res.paymentmethod === "Wallet") {
