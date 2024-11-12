@@ -193,26 +193,44 @@
       })
     }
 
-    function decrementCount(product_id){
-      const inputElem = document.getElementById(`count${product_id}`)
-      const priceElem = document.getElementById(`price${product_id}`)
-      const itemSumElem = document.getElementById(`itemsum${product_id}`)
+    function decrementCount(product_id) {
+  const inputElem = document.getElementById(`count${product_id}`);
+  const priceElem = document.getElementById(`price${product_id}`);
+  const itemSumElem = document.getElementById(`itemsum${product_id}`);
 
-      fetch(`/decreasequantity?value=${inputElem.value}&id=${product_id}`)
+  if (inputElem.value <= 1) {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to remove this item from the cart?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`/deletecart?id=${product_id}`)
+          .then(() => {
+            location.reload(); 
+          })
+          .catch(error => console.error('Error deleting item:', error));
+      }
+    });
+  } else {
+    fetch(`/decreasequantity?value=${inputElem.value}&id=${product_id}`)
       .then(res => res.json())
       .then(res => {
-        if(res.success){
-          inputElem.stepDown()
-          const price = Number(priceElem.textContent)
-          itemSumElem.textContent = price * inputElem.value
-          setCartTotal(res.cart)
-        }else{
-          alert(res.msg)
-        }
+        if (res.success) {
+          inputElem.stepDown();
+          const price = Number(priceElem.textContent);
+          itemSumElem.textContent = price * inputElem.value;
+          setCartTotal(res.cart);
+        } 
       })
-    }
+      .catch(error => console.error('Error decreasing quantity:', error));
+  }
+}
 
-    
     function setCartTotal(cart) {
                 const cartSumDiv = document.getElementById('cartItemListSum')
                 const totalSumElem = document.getElementById('totalSum')
