@@ -203,6 +203,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!-- checkout -->
     <br>
@@ -294,8 +295,8 @@
         }
 
         .coupon-fat-text {
-            font-weight: 600;
-            font-size: 20px;
+            font-weight: 700;
+            font-size: 30px;
             color: #fff;
         }
 
@@ -382,11 +383,9 @@
                 <!--First Row started -->
 
 
-                <div class="row" style="display: flex;">
-                    <div class="col-md-12 fs-5 text-lg text-uppercase "
-                        style="margin-left: 5%;display:flex;gap:4rem;flex-wrap:wrap;">
-
-                        <div class="col-md-5">
+                <div class="row" style="display: flex ;justify-content: center; padding: 20px; gap: 1rem">
+                    <div class="col-md-12 fs-5 text-lg text-uppercase" style="display:flex;gap:2rem;flex-wrap:nowrap;">
+                        <div class="col-md-6">
                             <div
                                 style="border:2px solid #C7C7C7;box-shadow: 5px 5px 10px; border-radius: 8px; padding: 20px;">
                                 <h5 style="text-align: center;font-size: 20px;font-weight: 900;"
@@ -430,6 +429,15 @@
                                             <h5>Coupon Discount</h5>
                                             <h5 style="font-weight: 700;margin-top: 10px;" id="couponDiscount">No Coupon
                                             </h5>
+                                            <div id="appliedCouponDetails" style="display: none;" class="mt-2">
+                                                <div class="d-flex align-items-center gap-2">
+                                                    <small class="text-success" id="couponName"></small>
+                                                    <button onclick="removeCoupon()" class="btn btn-sm btn-danger">
+                                                        <i class="fas fa-times"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                             <input id="last" type="hidden" value="<%=total%>" name="total">
 
                                         </div>
@@ -497,7 +505,6 @@
                                     <!--End payment options -->
                                 </div>
                             </div>
-                        </div>
 
 
 
@@ -554,11 +561,11 @@
                                                     <div class="coupon-head">
                                                         <%=coupons.couponname%>
                                                     </div>
-                                                    <div class="coupon-price">
-                                                        <%=coupons.coupondiscount%>% OFF
-                                                    </div>
                                                     <div class="coupon-fat-text">
                                                         <%=coupons.couponcode%>
+                                                    </div>
+                                                    <div class="coupon-price">
+                                                        <%=coupons.coupondiscount%>% OFF on purchase above ₹<%=coupons.minimumPrice%>
                                                     </div>
                                                 </div>
 
@@ -578,6 +585,8 @@
 
                         </div>
                     </div>
+
+                    </div>
                 </div>
                 </div>
                 <hr>
@@ -595,47 +604,103 @@
     <!--model end-->
 
     <script>
+       let currentCouponDetails = null;
 
-        function applyCoupon() {
+function applyCoupon() {
+    document.getElementById('modalClose').click();
+    
+    const total = document.getElementsByName('total')[0].value;
+    const coupon = document.getElementsByName('couponCode')[0].value;
+    
+    fetch('/couponImplement', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ couponCode: coupon, total: total }),
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            if (total >= data.minimumPrice) {
+                const discount = Number(total) - Number(data.discountedTotal);
+                
+                // Update display elements
+                document.getElementById('couponDiscount').innerText = `-${discount}`;
+                document.getElementById('gT').innerText = `Rs.${data.discountedTotal}`;
+                document.getElementById('last').value = data.discountedTotal;
 
+                // Store coupon details
+                currentCouponDetails = {
+                    code: coupon,
+                    discount: discount,
+                    originalTotal: total,
+                    discountedTotal: data.discountedTotal
+                };
 
-            document.getElementById('modalClose').click()
+                // Show applied coupon details
+                document.getElementById('couponName').textContent = `Applied Coupon: ${coupon}`;
+                document.getElementById('appliedCouponDetails').style.display = 'block';
 
-            console.log(document.getElementsByName('total')[0].value)
-            const total = document.getElementsByName('total')[0].value
-            const coupon = document.getElementsByName('couponCode')[0].value
-            fetch('/couponImplement', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ couponCode: coupon, total: total }),
-
-            })
-                .then(res => res.json())
-                .then(data => {
-                    const notification = document.getElementById('customNotification')
-                    if (data.success) {
-                        console.log('data success')
-                        console.log(data.discountedTotal)
-                        document.getElementById('couponDiscount').innerText = `-${Number(total) - Number(data.discountedTotal)}`
-                        document.getElementById('gT').innerText = `Rs.${data.discountedTotal}`
-
-                        notification.textContent = "COUPON ADDED SUCCESSFULLY";
-                        notification.style.backgroundColor = '#28a745';
-                        notification.style.display = 'block';
-                    } else {
-                        notification.textContent = "COUPON NOT ADDED";
-                        notification.style.backgroundColor = '#dc3545';
-                        notification.style.display = 'block';
-                    }
-
-                })
-                .catch(error => {
-                    console.log(error);
-                    alert('Please try again; some error occurred.');
+                // Clear modal input
+                document.getElementsByName('couponCode')[0].value = '';
+                
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'Coupon applied successfully',
+                    icon: 'success',
+                    confirmButtonColor: '#28a745'
                 });
+            } else {
+                Swal.fire({
+                    title: 'Cannot Apply Coupon',
+                    text: `Minimum purchase amount should be Rs.${data.minimumPrice} to use this coupon`,
+                    icon: 'warning',
+                    confirmButtonColor: '#f8bb86'
+                });
+            }
+        } else {
+            Swal.fire({
+                title: 'Error!',
+                text: data.message || 'Invalid coupon code',
+                icon: 'error',
+                confirmButtonColor: '#dc3545'
+            });
         }
+    })
+    .catch(error => {
+        console.error(error);
+        Swal.fire({
+            title: 'Error!',
+            text: 'Something went wrong. Please try again.',
+            icon: 'error',
+            confirmButtonColor: '#dc3545'
+        });
+    });
+}
+
+function removeCoupon() {
+    if (currentCouponDetails) {
+        document.getElementById('couponDiscount').innerText = 'No Coupon';
+        document.getElementById('gT').innerText = `Rs.${currentCouponDetails.originalTotal}`;
+        document.getElementById('last').value = currentCouponDetails.originalTotal;
+        document.getElementById('appliedCouponDetails').style.display = 'none';
+        document.getElementById('couponName').textContent = '';
+        
+        currentCouponDetails = null;
+
+        Swal.fire({
+            title: 'Coupon Removed',
+            text: 'Coupon has been removed successfully',
+            icon: 'success',
+            confirmButtonColor: '#28a745'
+        });
+    }
+}
+
+document.getElementById('exampleModal').addEventListener('hidden.bs.modal', function () {
+    document.getElementsByName('couponCode')[0].value = '';
+});
 
     </script>
 

@@ -207,33 +207,69 @@ const searchorders=async(req,res)=>{
         console.log(error)
     }
 }
-
-const couponImplement=async(req,res)=>{
+const couponImplement = async (req, res) => {
     try {
-        
-        const user = await User.findOne({ useremail: req.session.user })
-        const cart=user.cart
-        const coupon=req.body.couponCode
-        const total=req.body.total
-        if(!coupon){
-            res.redirect('/checkout')
-        }else{
-            const coup=await Coupon.findOne({couponcode:coupon})
-            const discountAmt=Math.floor(total*parseFloat(coup.coupondiscount))/100
-            let discountedTotal
-            if(discountAmt<coup.maxAmount){
-                discountedTotal=Math.floor(total-discountAmt)
-            }else{
-                discountedTotal=Math.floor(total-coup.maxAmount)
-                await Coupon.updateOne({couponcode:coupon},{$inc:{count:-1}})
-            }
-            req.session.discountedTotal=discountedTotal
-            res.json({success:true,discountedTotal})
+        const user = await User.findOne({ useremail: req.session.user });
+        const cart = user.cart;
+        const couponCode = req.body.couponCode;
+        const total = parseFloat(req.body.total);
+
+        if (!couponCode) {
+            return res.json({
+                success: false,
+                message: 'Please enter a coupon code'
+            });
         }
+
+        const coupon = await Coupon.findOne({ couponcode: couponCode });
+        
+        if (!coupon) {
+            return res.json({
+                success: false,
+                message: 'Invalid coupon code'
+            });
+        }
+
+        if (coupon.expiryDate && new Date() > coupon.expiryDate) {
+            return res.json({
+                success: false,
+                message: 'Coupon has expired'
+            });
+        }
+
+        if (total < coupon.minimumPrice) {
+            return res.json({
+                success: false,
+                message: `Minimum purchase of ₹${coupon.minimumPrice} required`,
+                minimumPrice: coupon.minimumPrice
+            });
+        }
+
+        const discountAmount = Math.floor(total * parseFloat(coupon.coupondiscount) / 100);
+        let discountedTotal;
+
+        if (discountAmount < coupon.maxAmount) {
+            discountedTotal = Math.floor(total - discountAmount);
+        } else {
+            discountedTotal = Math.floor(total - coupon.maxAmount);
+        }
+
+        return res.json({
+            success: true,
+            discountedTotal,
+            minimumPrice: coupon.minimumPrice,
+            discountAmount: total - discountedTotal,
+            message: 'Coupon applied successfully'
+        });
+
     } catch (error) {
-        console.log(error)
+        console.error('Coupon implementation error:', error);
+        return res.json({
+            success: false,
+            message: 'Something went wrong. Please try again.'
+        });
     }
-}
+};
 const downloadinvoice = async (req, res) => {
     try {
         const order = await Order.findOne({ orderid: req.query.id });
